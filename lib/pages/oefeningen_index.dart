@@ -19,7 +19,10 @@ class _OefeningenPageState extends State<OefeningenPage> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
+      body: ListView.separated(
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.black,
+        ),
         itemCount: oefeningen.length,
         itemBuilder: (context, index) {
           final exercise = oefeningen[index];

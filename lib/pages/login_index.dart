@@ -5,7 +5,7 @@ class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
-
+var loginsucces = false;
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailTextController = TextEditingController();
@@ -77,7 +77,8 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
             // submit button
-            Container(
+            Visibility(
+              visible: !loginsucces,
               child: Container(
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -96,7 +97,8 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   )),
             ),
-            Container(
+            Visibility(
+              visible: loginsucces,
               child: Container(
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -122,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void attemptLogin(String email, String password) async {
     bool loggedin = await AuthenticationServices.login(email, password);
-
+    loginsucces = loggedin;
     AlertDialog alert = AlertDialog(
       title: Text("Alert"),
       content: loggedin ? Text("Succesfully logged in") : Text("Login failed"),
@@ -139,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
   void attemptLogout() async {
     bool loggedout = await AuthenticationServices.logout();
 
-    if (loggedout) {
+    if (loginsucces && loggedout) {
       AlertDialog alert = AlertDialog(
         title: Text("Alert"),
         content: Text("Logged out"),
@@ -151,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
           return alert;
         },
       );
+      loginsucces = false;
     }
 
     setState(() {});
