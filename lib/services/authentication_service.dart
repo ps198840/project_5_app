@@ -1,38 +1,28 @@
 import 'dart:convert';
 import 'package:project_5/models/oefening.dart';
-//import 'package:project_5/models/student.dart';
 import 'package:http/http.dart' as http;
 
 class AuthenticationServices {
-  static const String _baseApi = 'http://127.0.0.1:8000/api';
-  static String _bearerToken = '';
+  static const String _baseApi = 'http://10.244.17.94:8000/api';
+  static String _bearerToken = '1|uLtEejDyZbADWvxnFBdy2s48j12Tow9RvJSND3RS';
 
   //API Get all
-  Future<List<Oefening>> getAll() async {
-    List<Oefening> oefeningen = [];
-    final response =
-    await http.get(Uri.parse('http://127.0.0.1:8000/api/oefeningen'));
-
+  static Future<List> getAll() async {
+    final response = await http.get(
+      Uri.parse('$_baseApi/oefeningen'),
+      headers: <String, String>{
+        'Accept': 'application/json',
+      },
+    );
     if (response.statusCode != 200) {
       throw Exception(
           'Fout bij het ophalen van alle oefeningen (${response.statusCode}).');
     }
-
-    final List<dynamic> data = jsonDecode(response.body);
-
-    for (int i = 0; i < data.length; i++) {
-      final oefening = Oefening(
-          id: data[i]['id'],
-          naam: data[i]['naam'],
-          beschrijving: data[i]['beschrijving']);
-
-          oefeningen.add(oefening);
-    }
-    return oefeningen;
+    return jsonDecode(response.body);
   }
 
   //API register
-  static Future<bool> register (String email, String password, String name) async {
+  Future<bool> register (String email, String password, String name) async {
     final response = await http.post(
       Uri.parse('$_baseApi/register'),
       headers: <String, String>{

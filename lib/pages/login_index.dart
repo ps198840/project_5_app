@@ -29,8 +29,20 @@ class _LoginPageState extends State<LoginPage> {
             TextFormField(
               controller: _emailTextController,
               textInputAction: TextInputAction.next,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), hintText: 'email adres'),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5.0 , horizontal: 10.0),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(
+                      color: Colors.green,
+                      width: 2.0,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  hintText: 'e-mail adres'
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Vul emailadres in';
@@ -43,28 +55,64 @@ class _LoginPageState extends State<LoginPage> {
               controller: _passwordTextController,
               textInputAction: TextInputAction.next,
               obscureText: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), hintText: 'password'),
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5.0 , horizontal: 10.0),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: Colors.green,
+                        width: 2.0,
+                      ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  hintText: 'wachtwoord'
+              ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Vul password in';
+                  return 'Vul wachtwoord in';
                 }
                 return null;
               },
             ),
             // submit button
-            ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  try {
-                    final result = await AuthenticationServices.login(
-                      _emailTextController.text,
-                      _passwordTextController.text,
-                    );
-                  } catch (e) {}
-                }
-              },
-              child: const Text('Inloggen'),
+            Container(
+              child: Container(
+                  height: 50,
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                        side: const BorderSide(
+                          width: 1.0,
+                          color: Colors.yellow,
+                        )
+                    ),
+                    child: const Text('Login'),
+                    onPressed: () {
+                      attemptLogin(
+                          _emailTextController.text, _passwordTextController.text);
+                    },
+                  )),
+            ),
+            Container(
+              child: Container(
+                  height: 50,
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                        side: const BorderSide(
+                          width: 1.0,
+                          color: Colors.yellow,
+                        )
+                    ),
+                    child: const Text('Logout'),
+                    onPressed: () {
+                      attemptLogout();
+                    },
+                  )),
             ),
           ],
         ),
@@ -86,6 +134,25 @@ class _LoginPageState extends State<LoginPage> {
         return alert;
       },
     );
+    setState(() {});
+  }
+  void attemptLogout() async {
+    bool loggedout = await AuthenticationServices.logout();
+
+    if (loggedout) {
+      AlertDialog alert = AlertDialog(
+        title: Text("Alert"),
+        content: Text("Logged out"),
+      );
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
     setState(() {});
   }
 }

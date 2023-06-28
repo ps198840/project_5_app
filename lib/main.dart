@@ -16,18 +16,21 @@ class TabBarDemo extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.green,
             bottom: const TabBar(
+              indicatorColor: Colors.yellow,
               tabs: [
-                Tab(icon: Icon(Icons.directions_run_outlined)),
-                Tab(icon: Icon(Icons.login)),
+
+                Tab(icon: Icon(Icons.sports_martial_arts_rounded)),
+                Tab(icon: Icon(Icons.person)),
               ],
             ),
             title: const Text('Summa Actief'),
           ),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
               OefeningenPage(),
-              LoginPage();
+              LoginPage(),
             ],
           ),
         ),
