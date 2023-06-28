@@ -30,7 +30,11 @@ class _OefeningenPageState extends State<OefeningenPage> {
           final description = exercise['beschrijving'];
           return ListTile(
             title: Text(name),
-            subtitle: Text(description),
+            subtitle: Column(
+              children: <Widget>[
+                Text(description),
+              ],
+            )
           );
         },
       ),

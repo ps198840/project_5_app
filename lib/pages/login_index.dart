@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_5/pages/register_index.dart';
 import 'package:project_5/services/authentication_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -116,6 +117,29 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   )),
             ),
+            Visibility(
+              visible: !loginsucces,
+              child: Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                child:ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      side: const BorderSide(
+                        width: 1.0,
+                        color: Colors.yellow,
+                      )
+                  ),
+                  child: const Text('Register'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const RegisterPage()),
+                    );
+                  },
+                )
+              )
+            )
           ],
         ),
       ),

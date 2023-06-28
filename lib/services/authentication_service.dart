@@ -21,6 +21,19 @@ class AuthenticationServices {
     return jsonDecode(response.body);
   }
 
+  //API delete
+  static Future<bool> delete (String id) async {
+    final response = await http.delete(
+      Uri.parse('$_baseApi/oefeningen/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization' : 'Bearer $_bearerToken'
+      },
+    );
+
+    return response.statusCode == 200;
+  }
+
   //API register
   Future<bool> register (String email, String password, String name) async {
     final response = await http.post(
@@ -73,4 +86,5 @@ class AuthenticationServices {
 
     return response.statusCode == 200;
   }
+
 }
